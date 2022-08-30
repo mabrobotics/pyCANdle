@@ -1,9 +1,6 @@
 [submodule "src/candle"]
 	path = src/candle
 	url = https://gitlab.com/MAB_Robotics/md80_usbcan.git
-[submodule "lib/lib/pybind11"]
-	path = lib/lib/pybind11
-	url = git@github.com:MafishMCH/pybind11.git
 [submodule "lib/pybind11"]
 	path = lib/pybind11
 	url = git@github.com:MafishMCH/pybind11.git
