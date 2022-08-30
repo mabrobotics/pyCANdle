@@ -1,6 +1,7 @@
 CMakeLists.txt
 MANIFEST.in
 README.md
+bindings.cpp
 setup.py
 lib/pybind11/CMakeLists.txt
 lib/pybind11/LICENSE
