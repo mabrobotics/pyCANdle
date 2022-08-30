@@ -1,0 +1,30 @@
+Metadata-Version: 2.1
+Name: pyCandleMAB
+Version: 1.3.1
+Summary: Python package for controlling MD80-based actuators
+Home-page: UNKNOWN
+Author: Piotr Wasilewski
+Author-email: support.md80@mabrobotics.pl
+License: UNKNOWN
+Description: 
+        # pyCandle module
+        
+        Python module based on C++ Candle libraries. Pybind11 is used to create a *.so module that can be imported to python. In order to add new classes/methods/variales to the python module they have to be described in the main.cpp file and then ```make``` has to be called from the ./build directory. This will result in a generation of *.so module that can be imported to python source files using
+        ``` import build.pyCandle as pyCandle ``` for development 
+        or 
+        ```import mab.pyCandle as pyCandle``` for release
+        
+        
+Platform: UNKNOWN
+Classifier: License :: OSI Approved :: GNU General Public License v3 (GPLv3)
+Classifier: Natural Language :: English
+Classifier: Programming Language :: Python :: 3.6
+Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: C++
+Classifier: Intended Audience :: Science/Research
+Classifier: Programming Language :: Python :: Implementation :: CPython
+Classifier: Operating System :: POSIX :: Linux
+Description-Content-Type: text/markdown
