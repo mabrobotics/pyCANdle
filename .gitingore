@@ -6,3 +6,4 @@ dist
 build
 wheelhouse
 tmpvenv
+src/pyCandleMAB.egg-info

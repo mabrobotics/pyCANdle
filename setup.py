@@ -74,7 +74,7 @@ readme = open('README.md').read()
 
 setup(
     name="pyCandleMAB",
-    version="1.3.2",
+    version="1.3.3",
     author="Piotr Wasilewski",
     author_email="support.md80@mabrobotics.pl",
     description="Python package for controlling MD80-based actuators",
@@ -84,7 +84,7 @@ setup(
     packages=find_packages('src'),
     package_dir={'': 'src', 'lib': 'lib'},
     package_data={'lib': ['lib/*', ]},
-    ext_modules=[CMakeExtension('pyCandle/pyCandle')],
+    ext_modules=[CMakeExtension('pyCandle')],
     cmdclass=dict(build_ext=CMakeBuild),
     zip_safe=False,
     include_package_data=True,
