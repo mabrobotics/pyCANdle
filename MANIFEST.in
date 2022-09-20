@@ -1,0 +1,7 @@
+recursive-include src *
+recursive-include lib *
+include bindings.cpp
+
+global-exclude .clang-format .clang-tidy .git* library.json library.properties Doxyfile keywords.txt Makefile* doxygen-custom.css **.yml **.yaml *.pdf .pylintrc
+exclude */*.md */README* 
+include pyproject.toml setup.py CMakeLists.txt
