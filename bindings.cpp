@@ -163,7 +163,7 @@ PYBIND11_MODULE(pyCandle, m)
 
 	py::class_<mab::Candle>(m, "Candle")
 		.def(py::init<mab::CANdleBaudrate_E, bool>())
-		.def(py::init<mab::CANdleBaudrate_E, bool, mab::BusType_E>())
+		.def(py::init<mab::CANdleBaudrate_E, bool, mab::BusType_E, std::string>(), py::arg("canBaudrate"), py::arg("printVerbose"), py::arg("busType"), py::arg("device") = "")
 		.def("getVersion", &mab::Candle::getVersion)
 		.def("getDeviceId", &mab::Candle::getDeviceId)
 		.def_readwrite("md80s", &mab::Candle::md80s)
