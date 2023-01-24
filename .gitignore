@@ -7,3 +7,5 @@ build
 wheelhouse
 tmpvenv
 src/pyCandleMAB.egg-info
+test_Release.sh
+Release.sh
