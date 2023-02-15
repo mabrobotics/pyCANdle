@@ -27,10 +27,18 @@ class CandlePython : public Candle
 
 	int64_t readMd80Register_(uint16_t canId, Md80Reg_E regId, int64_t regValue)
 	{
-		int32_t regValue_i64 = 0;
+		int64_t regValue_i64 = 0;
 
 		md80Register->read(canId, regId, regValue_i64);
-		return regValue_i64;
+
+		if (md80Register->getType(regId) == Register::type::I8)
+			return *(uint8_t*)&regValue_i64;
+		else if (md80Register->getType(regId) == Register::type::I16)
+			return *(uint16_t*)&regValue_i64;
+		else if (md80Register->getType(regId) == Register::type::I32)
+			return *(uint32_t*)&regValue_i64;
+		else
+			return regValue_i64;
 	}
 
 	std::string readMd80Register_(uint16_t canId, Md80Reg_E regId, char* regValue)
@@ -113,22 +121,44 @@ PYBIND11_MODULE(pyCandle, m)
 		.value("motorResistance", mab::Md80Reg_E::motorResistance)
 		.value("motorInductance", mab::Md80Reg_E::motorInductance)
 		.value("motorKV", mab::Md80Reg_E::motorKV)
+
 		.value("outputEncoder", mab::Md80Reg_E::outputEncoder)
 		.value("outputEncoderDir", mab::Md80Reg_E::outputEncoderDir)
 		.value("outputEncoderDefaultBaud", mab::Md80Reg_E::outputEncoderDefaultBaud)
+		.value("outputEncoderVelocity", mab::Md80Reg_E::outputEncoderVelocity)
+		.value("outputEncoderPosition", mab::Md80Reg_E::outputEncoderPosition)
+		.value("outputEncoderMode", mab::Md80Reg_E::outputEncoderMode)
+
 		.value("motorPosPidKp", mab::Md80Reg_E::motorPosPidKp)
 		.value("motorPosPidKi", mab::Md80Reg_E::motorPosPidKi)
 		.value("motorPosPidKd", mab::Md80Reg_E::motorPosPidKd)
 		.value("motorPosPidOutMax", mab::Md80Reg_E::motorPosPidOutMax)
 		.value("motorPosPidWindup", mab::Md80Reg_E::motorPosPidWindup)
+
 		.value("motorVelPidKp", mab::Md80Reg_E::motorVelPidKp)
 		.value("motorVelPidKi", mab::Md80Reg_E::motorVelPidKi)
 		.value("motorVelPidKd", mab::Md80Reg_E::motorVelPidKd)
 		.value("motorVelPidOutMax", mab::Md80Reg_E::motorVelPidOutMax)
 		.value("motorVelPidWindup", mab::Md80Reg_E::motorVelPidWindup)
+
 		.value("motorImpPidKp", mab::Md80Reg_E::motorImpPidKp)
 		.value("motorImpPidKd", mab::Md80Reg_E::motorImpPidKd)
 		.value("motorImpPidOutMax", mab::Md80Reg_E::motorImpPidOutMax)
+
+		.value("runSaveCmd", mab::Md80Reg_E::runSaveCmd)
+		.value("runTestMainEncoderCmd", mab::Md80Reg_E::runTestMainEncoderCmd)
+		.value("runTestOutputEncoderCmd", mab::Md80Reg_E::runTestOutputEncoderCmd)
+		.value("runCalibrateCmd", mab::Md80Reg_E::runCalibrateCmd)
+		.value("runCalibrateOutpuEncoderCmd", mab::Md80Reg_E::runCalibrateOutpuEncoderCmd)
+		.value("runCalibratePiGains", mab::Md80Reg_E::runCalibratePiGains)
+
+		.value("calOutputEncoderStdDev", mab::Md80Reg_E::calOutputEncoderStdDev)
+		.value("calOutputEncoderMinE", mab::Md80Reg_E::calOutputEncoderMinE)
+		.value("calOutputEncoderMaxE", mab::Md80Reg_E::calOutputEncoderMaxE)
+		.value("calMainEncoderStdDev", mab::Md80Reg_E::calMainEncoderStdDev)
+		.value("calMainEncoderMinE", mab::Md80Reg_E::calMainEncoderMinE)
+		.value("calMainEncoderMaxE", mab::Md80Reg_E::calMainEncoderMaxE)
+
 		.value("buildDate", mab::Md80Reg_E::buildDate)
 		.value("commitHash", mab::Md80Reg_E::commitHash)
 		.value("firmwareVersion", mab::Md80Reg_E::firmwareVersion)
@@ -137,6 +167,12 @@ PYBIND11_MODULE(pyCandle, m)
 		.value("errorVector", mab::Md80Reg_E::errorVector)
 		.value("mosfetTemperature", mab::Md80Reg_E::mosfetTemperature)
 		.value("motorTemperature ", mab::Md80Reg_E::motorTemperature)
+		.value("mainEncoderErrors", mab::Md80Reg_E::mainEncoderErrors)
+		.value("auxEncoderErrors", mab::Md80Reg_E::auxEncoderErrors)
+		.value("calibrationErrors", mab::Md80Reg_E::calibrationErrors)
+		.value("bridgeErrors", mab::Md80Reg_E::bridgeErrors)
+		.value("hardwareErrors", mab::Md80Reg_E::hardwareErrors)
+		.value("communicationErrors ", mab::Md80Reg_E::communicationErrors)
 		.export_values();
 
 	py::class_<mab::ImpedanceControllerGains_t>(m, "ImpedanceControllerGains_t")
@@ -164,7 +200,21 @@ PYBIND11_MODULE(pyCandle, m)
 		.def_readwrite("inductance", &mab::regRO_st::inductance)
 		.def_readwrite("errorVector", &mab::regRO_st::errorVector)
 		.def_readwrite("mosfetTemperature", &mab::regRO_st::mosfetTemperature)
-		.def_readwrite("motorTemperature", &mab::regRO_st::motorTemperature);
+		.def_readwrite("motorTemperature", &mab::regRO_st::motorTemperature)
+		.def_readwrite("outputEncoderVelocity", &mab::regRO_st::outputEncoderVelocity)
+		.def_readwrite("outputEncoderPosition", &mab::regRO_st::outputEncoderPosition)
+		.def_readwrite("calOutputEncoderStdDev", &mab::regRO_st::calOutputEncoderStdDev)
+		.def_readwrite("calOutputEncoderMinE", &mab::regRO_st::calOutputEncoderMinE)
+		.def_readwrite("calOutputEncoderMaxE", &mab::regRO_st::calOutputEncoderMaxE)
+		.def_readwrite("calMainEncoderStdDev", &mab::regRO_st::calMainEncoderStdDev)
+		.def_readwrite("calMainEncoderMinE", &mab::regRO_st::calMainEncoderMinE)
+		.def_readwrite("calMainEncoderMaxE", &mab::regRO_st::calMainEncoderMaxE)
+		.def_readwrite("mainEncoderErrors", &mab::regRO_st::mainEncoderErrors)
+		.def_readwrite("auxEncoderErrors", &mab::regRO_st::auxEncoderErrors)
+		.def_readwrite("calibrationErrors", &mab::regRO_st::calibrationErrors)
+		.def_readwrite("bridgeErrors", &mab::regRO_st::bridgeErrors)
+		.def_readwrite("hardwareErrors", &mab::regRO_st::hardwareErrors)
+		.def_readwrite("communicationErrors", &mab::regRO_st::communicationErrors);
 
 	py::class_<mab::regRW_st>(m, "regRW_st")
 		.def(py::init())
@@ -181,13 +231,22 @@ PYBIND11_MODULE(pyCandle, m)
 		.def_readwrite("iMax", &mab::regRW_st::iMax)
 		.def_readwrite("gearRatio", &mab::regRW_st::gearRatio)
 		.def_readwrite("outputEncoder", &mab::regRW_st::outputEncoder)
+		.def_readwrite("outputEncoderMode", &mab::regRW_st::outputEncoderMode)
 		.def_readwrite("outputEncoderDir", &mab::regRW_st::outputEncoderDir)
 		.def_readwrite("torqueBandwidth", &mab::regRW_st::torqueBandwidth)
+		.def_readwrite("outputEncoderDefaultBaud", &mab::regRW_st::outputEncoderDefaultBaud)
 		.def_readwrite("friction", &mab::regRW_st::friction)
 		.def_readwrite("stiction", &mab::regRW_st::stiction)
+		.def_readwrite("motorShutdownTemp", &mab::regRW_st::motorShutdownTemp)
 		.def_readwrite("impedancePdGains", &mab::regRW_st::impedancePdGains)
 		.def_readwrite("velocityPidGains", &mab::regRW_st::velocityPidGains)
-		.def_readwrite("positionPidGains", &mab::regRW_st::positionPidGains);
+		.def_readwrite("positionPidGains", &mab::regRW_st::positionPidGains)
+		.def_readwrite("runSaveCmd", &mab::regRW_st::runSaveCmd)
+		.def_readwrite("runTestOutputEncoderCmd", &mab::regRW_st::runTestOutputEncoderCmd)
+		.def_readwrite("runTestMainEncoderCmd", &mab::regRW_st::runTestMainEncoderCmd)
+		.def_readwrite("runCalibrateCmd", &mab::regRW_st::runCalibrateCmd)
+		.def_readwrite("runCalibrateOutpuEncoderCmd", &mab::regRW_st::runCalibrateOutpuEncoderCmd)
+		.def_readwrite("runCalibratePiGains", &mab::regRW_st::runCalibratePiGains);
 
 	py::class_<mab::regWrite_st>(m, "regWrite_st")
 		.def(py::init())
