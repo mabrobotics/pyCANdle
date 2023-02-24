@@ -4,6 +4,8 @@ add_compile_options(-Wall -Wextra -Wpedantic)
 
 project(pyCandle)
 
+set(CMAKE_BUILD_TYPE Release)
+
 add_subdirectory(lib/pybind11)
 pybind11_add_module(pyCandle bindings.cpp)
 

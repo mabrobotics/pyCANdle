@@ -21,12 +21,14 @@ class CandlePython : public Candle
 
 	float readMd80Register_(uint16_t canId, Md80Reg_E regId, float regValue)
 	{
+		(void)regValue;
 		md80Register->read(canId, regId, regValue);
 		return regValue;
 	}
 
 	int64_t readMd80Register_(uint16_t canId, Md80Reg_E regId, int64_t regValue)
 	{
+		(void)regValue;
 		int64_t regValue_i64 = 0;
 
 		md80Register->read(canId, regId, regValue_i64);
@@ -43,6 +45,7 @@ class CandlePython : public Candle
 
 	std::string readMd80Register_(uint16_t canId, Md80Reg_E regId, char* regValue)
 	{
+		(void)regValue;
 		char regValue_[64] = {0};
 		md80Register->read(canId, regId, regValue_);
 		return std::string(regValue_);
@@ -128,6 +131,7 @@ PYBIND11_MODULE(pyCandle, m)
 		.value("outputEncoderVelocity", mab::Md80Reg_E::outputEncoderVelocity)
 		.value("outputEncoderPosition", mab::Md80Reg_E::outputEncoderPosition)
 		.value("outputEncoderMode", mab::Md80Reg_E::outputEncoderMode)
+		.value("outputEncoderCalibrationMode", mab::Md80Reg_E::outputEncoderCalibrationMode)
 
 		.value("motorPosPidKp", mab::Md80Reg_E::motorPosPidKp)
 		.value("motorPosPidKi", mab::Md80Reg_E::motorPosPidKi)
@@ -194,7 +198,7 @@ PYBIND11_MODULE(pyCandle, m)
 		.def_readwrite("firmwareVersion", &mab::regRO_st::firmwareVersion)
 		.def_readwrite("hardwareVersion", &mab::regRO_st::hardwareVersion)
 		.def_readwrite("buildDate", &mab::regRO_st::buildDate)
-		// .def_readwrite("commitHash", &mab::regRO_st::commitHash) //does not work due to it's type being a simple char array
+		// .def_readwrite("commitHash", &mab::regRO_st::commitHash) //char array doesnt work, see how char arrays registers are handled in the example12
 		.def_readwrite("bridgeType", &mab::regRO_st::bridgeType)
 		.def_readwrite("resistance", &mab::regRO_st::resistance)
 		.def_readwrite("inductance", &mab::regRO_st::inductance)
@@ -232,6 +236,7 @@ PYBIND11_MODULE(pyCandle, m)
 		.def_readwrite("gearRatio", &mab::regRW_st::gearRatio)
 		.def_readwrite("outputEncoder", &mab::regRW_st::outputEncoder)
 		.def_readwrite("outputEncoderMode", &mab::regRW_st::outputEncoderMode)
+		.def_readwrite("outputEncoderCalibrationMode", &mab::regRW_st::outputEncoderCalibrationMode)
 		.def_readwrite("outputEncoderDir", &mab::regRW_st::outputEncoderDir)
 		.def_readwrite("torqueBandwidth", &mab::regRW_st::torqueBandwidth)
 		.def_readwrite("outputEncoderDefaultBaud", &mab::regRW_st::outputEncoderDefaultBaud)
