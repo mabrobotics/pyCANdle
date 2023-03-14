@@ -1,4 +1,4 @@
-.vscode/
+.vscode
 *.swp
 *.egg-info
 *.pyc
