@@ -74,11 +74,7 @@ readme = open('README.md').read()
 
 setup(
     name="pyCandleMAB",
-<<<<<<< HEAD
     version="1.3.28",
-=======
-    version="1.3.1",
->>>>>>> master
     author="Piotr Wasilewski",
     author_email="support.md80@mabrobotics.pl",
     description="Python package for controlling MD80-based actuators",
