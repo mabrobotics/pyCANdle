@@ -110,6 +110,7 @@ PYBIND11_MODULE(pyCandle, m)
 		.value("canBaudrate", mab::Md80Reg_E::canBaudrate)
 		.value("canWatchdog", mab::Md80Reg_E::canWatchdog)
 		.value("canTermination", mab::Md80Reg_E::canTermination)
+
 		.value("motorName", mab::Md80Reg_E::motorName)
 		.value("motorPolePairs", mab::Md80Reg_E::motorPolePairs)
 		.value("motorKt", mab::Md80Reg_E::motorKt)
@@ -177,35 +178,21 @@ PYBIND11_MODULE(pyCandle, m)
 		.value("bridgeType", mab::Md80Reg_E::bridgeType)
 		.value("errorVector", mab::Md80Reg_E::errorVector)
 		.value("mosfetTemperature", mab::Md80Reg_E::mosfetTemperature)
-		.value("motorTemperature ", mab::Md80Reg_E::motorTemperature)
+		.value("motorTemperature", mab::Md80Reg_E::motorTemperature)
+		.value("motorShutdownTemp", mab::Md80Reg_E::motorShutdownTemp)
 		.value("mainEncoderErrors", mab::Md80Reg_E::mainEncoderErrors)
 		.value("outputEncoderErrors", mab::Md80Reg_E::outputEncoderErrors)
 		.value("calibrationErrors", mab::Md80Reg_E::calibrationErrors)
 		.value("bridgeErrors", mab::Md80Reg_E::bridgeErrors)
 		.value("hardwareErrors", mab::Md80Reg_E::hardwareErrors)
-		.value("communicationErrors ", mab::Md80Reg_E::communicationErrors)
+		.value("communicationErrors", mab::Md80Reg_E::communicationErrors)
 		.export_values();
-
-	py::class_<mab::ImpedanceControllerGains_t>(m, "ImpedanceControllerGains_t")
-		.def(py::init())
-		.def_readwrite("kp", &mab::ImpedanceControllerGains_t::kp)
-		.def_readwrite("kd", &mab::ImpedanceControllerGains_t::kd)
-		.def_readwrite("outMax", &mab::ImpedanceControllerGains_t::outMax);
-
-	py::class_<mab::PidControllerGains_t>(m, "PidControllerGains_t")
-		.def(py::init())
-		.def_readwrite("kp", &mab::PidControllerGains_t::kp)
-		.def_readwrite("ki", &mab::PidControllerGains_t::ki)
-		.def_readwrite("kd", &mab::PidControllerGains_t::kd)
-		.def_readwrite("intWindup", &mab::PidControllerGains_t::intWindup)
-		.def_readwrite("outMax", &mab::PidControllerGains_t::outMax);
 
 	py::class_<mab::regRO_st>(m, "regRO_st")
 		.def(py::init())
 		.def_readwrite("firmwareVersion", &mab::regRO_st::firmwareVersion)
 		.def_readwrite("hardwareVersion", &mab::regRO_st::hardwareVersion)
 		.def_readwrite("buildDate", &mab::regRO_st::buildDate)
-		// .def_readwrite("commitHash", &mab::regRO_st::commitHash) //char array doesnt work, see how char arrays registers are handled in the example12
 		.def_readwrite("bridgeType", &mab::regRO_st::bridgeType)
 		.def_readwrite("resistance", &mab::regRO_st::resistance)
 		.def_readwrite("inductance", &mab::regRO_st::inductance)
@@ -264,6 +251,20 @@ PYBIND11_MODULE(pyCandle, m)
 		.def_readwrite("runCalibrateCmd", &mab::regRW_st::runCalibrateCmd)
 		.def_readwrite("runCalibrateOutpuEncoderCmd", &mab::regRW_st::runCalibrateOutpuEncoderCmd)
 		.def_readwrite("runCalibratePiGains", &mab::regRW_st::runCalibratePiGains);
+
+	py::class_<mab::ImpedanceControllerGains_t>(m, "ImpedanceControllerGains_t")
+		.def(py::init())
+		.def_readwrite("kp", &mab::ImpedanceControllerGains_t::kp)
+		.def_readwrite("kd", &mab::ImpedanceControllerGains_t::kd)
+		.def_readwrite("outMax", &mab::ImpedanceControllerGains_t::outMax);
+
+	py::class_<mab::PidControllerGains_t>(m, "PidControllerGains_t")
+		.def(py::init())
+		.def_readwrite("kp", &mab::PidControllerGains_t::kp)
+		.def_readwrite("ki", &mab::PidControllerGains_t::ki)
+		.def_readwrite("kd", &mab::PidControllerGains_t::kd)
+		.def_readwrite("intWindup", &mab::PidControllerGains_t::intWindup)
+		.def_readwrite("outMax", &mab::PidControllerGains_t::outMax);
 
 	py::class_<mab::regWrite_st>(m, "regWrite_st")
 		.def(py::init())
