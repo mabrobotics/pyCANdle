@@ -16,7 +16,7 @@ class CandlePython : public Candle
 {
    public:
 	CandlePython(CANdleBaudrate_E canBaudrate, bool printVerbose = true, mab::BusType_E busType = BusType_E::USB, const std::string device = "") : Candle(canBaudrate, printVerbose, busType, device) {}
-	CandlePython(CANdleBaudrate_E canBaudrate, bool printVerbose, mab::Bus* bus) : Candle(canBaudrate, printVerbose, bus) {}
+	CandlePython(CANdleBaudrate_E canBaudrate, bool printVerbose, std::shared_ptr<Bus> bus) : Candle(canBaudrate, printVerbose, bus) {}
 	virtual ~CandlePython() = default;
 
 	float readMd80Register_(uint16_t canId, Md80Reg_E regId, float regValue)
@@ -141,18 +141,15 @@ PYBIND11_MODULE(pyCandle, m)
 		.value("motorPosPidKp", mab::Md80Reg_E::motorPosPidKp)
 		.value("motorPosPidKi", mab::Md80Reg_E::motorPosPidKi)
 		.value("motorPosPidKd", mab::Md80Reg_E::motorPosPidKd)
-		.value("motorPosPidOutMax", mab::Md80Reg_E::motorPosPidOutMax)
 		.value("motorPosPidWindup", mab::Md80Reg_E::motorPosPidWindup)
 
 		.value("motorVelPidKp", mab::Md80Reg_E::motorVelPidKp)
 		.value("motorVelPidKi", mab::Md80Reg_E::motorVelPidKi)
 		.value("motorVelPidKd", mab::Md80Reg_E::motorVelPidKd)
-		.value("motorVelPidOutMax", mab::Md80Reg_E::motorVelPidOutMax)
 		.value("motorVelPidWindup", mab::Md80Reg_E::motorVelPidWindup)
 
 		.value("motorImpPidKp", mab::Md80Reg_E::motorImpPidKp)
 		.value("motorImpPidKd", mab::Md80Reg_E::motorImpPidKd)
-		.value("motorImpPidOutMax", mab::Md80Reg_E::motorImpPidOutMax)
 
 		.value("mainEncoderVelocity", mab::Md80Reg_E::mainEncoderVelocity)
 		.value("mainEncoderPosition", mab::Md80Reg_E::mainEncoderPosition)
