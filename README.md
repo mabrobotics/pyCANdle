@@ -29,4 +29,4 @@ when a signle actuator is connected to the dongle the console output should look
 [CANDLE] LEDs blining at ID = 85
 EXIT SUCCESS
 ```
-For more examples visit: https://github.com/mabrobotics/candle/tree/main/pyCandle/examples
+For more examples visit: https://github.com/mabrobotics/candle/tree/main/examples_python

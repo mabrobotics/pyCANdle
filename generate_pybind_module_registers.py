@@ -7,7 +7,6 @@ The output is written to the file enum_output.txt in the same directory as the s
 import sys
 import csv
 
-
 # if no path is given, the default path is used
 if(len(sys.argv) == 1):
     path = "./src/candle/include/register.hpp"
@@ -44,6 +43,28 @@ def read_enum(key, sourceFile):
                 csv_buffer += "break=here\n"
             else:
                 csv_buffer += line.replace("\n", "").replace(" ", "").replace("\t", "").replace(",", "").replace("\r","") + "\n"
+    csv_array = csv.reader(csv_buffer.splitlines(), delimiter='=')
+    return csv_array
+
+def read_enum_reversed(key, sourceFile):
+    sourceFile.seek(0)
+    begin_enum = False
+    csv_buffer = ""
+    for line in reversed(list(sourceFile)):
+        if key in line:
+            begin_enum = True
+            continue
+        if begin_enum:
+            if "{" in line:
+                break
+            elif line == "\n":
+                csv_buffer += "break=here\n"
+            else:
+                csv_buffer += line.replace("\n", "").replace(" ", "").replace("\t", "").replace(",", "").replace("\r","") + "\n"
+    #invert the order of the lines
+    csv_buffer = csv_buffer.splitlines()
+    csv_buffer.reverse()
+    csv_buffer = "\n".join(csv_buffer)
     csv_array = csv.reader(csv_buffer.splitlines(), delimiter='=')
     return csv_array
 
@@ -86,7 +107,7 @@ def read_struct_reversed(key, sourceFile):
     return csv_array
 
 # read the file and write the output
-csv_array_all = read_enum("enum Md80Reg_E : uint16_t", sourceFile)
+csv_array_all = read_enum_reversed("} Md80Reg_E;", sourceFile)
 csv_array_RW = read_struct_reversed("} regRW_st;", sourceFile)
 csv_array_RO = read_struct_reversed("} regRO_st;", sourceFile)
 
