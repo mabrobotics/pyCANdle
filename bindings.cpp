@@ -309,7 +309,8 @@ PYBIND11_MODULE(pyCandle, m)
 		.def_readwrite("targetTorque", &mab::regRW_st::targetTorque)
 		.def_readwrite("motionMode", &mab::regRW_st::motionMode)
 		.def_readwrite("state", &mab::regRW_st::state)
-		.def_readwrite("reverseDirection", &mab::regRW_st::reverseDirection);
+		.def_readwrite("reverseDirection", &mab::regRW_st::reverseDirection)
+		.def_readwrite("brakeMode", &mab::regRW_st::brakeMode);
 
 	py::class_<mab::ImpedanceControllerGains_t>(m, "ImpedanceControllerGains_t")
 		.def(py::init())
