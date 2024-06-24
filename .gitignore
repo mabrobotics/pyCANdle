@@ -8,3 +8,4 @@ build
 wheelhouse
 tmpvenv
 src/pyCandleMAB.egg-info
+venv/
